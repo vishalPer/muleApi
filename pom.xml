@@ -46,7 +46,7 @@
 							<http>
 								<inbound>
 									<!-- <publicUrl>${publicURL}</publicUrl> -->
-									<forwardSslSession>true</forwardSslSession>
+									<!-- <forwardSslSession>true</forwardSslSession> -->
 									<lastMileSecurity>true</lastMileSecurity>
 								</inbound>
 							</http>
