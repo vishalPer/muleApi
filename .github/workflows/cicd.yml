@@ -1,0 +1,74 @@
+name: Deploy Mule App to CloudHub 2.0
+ 
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Anypoint environment to deploy to"
+        required: true
+        default: "Sandbox"
+        type: choice
+        options:
+          - Sandbox
+          - Staging
+          - Production
+      target:
+        description: "CloudHub 2.0 deployment target (Shared Space / Private Space name)"
+        required: true
+        default: "Cloudhub-US-East-2"
+ 
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+ 
+    env:
+      ENVIRONMENT: ${{ github.event.inputs.environment || 'Sandbox' }}
+      TARGET: ${{ github.event.inputs.target || 'Cloudhub-US-East-2' }}
+ 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+ 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+ 
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+ 
+      # Injects the Connected App credentials into ~/.m2/settings.xml under
+      # the server id referenced by <server> in your pom.xml's
+      # <cloudhub2Deployment> and <distributionManagement> blocks.
+      - name: Configure Maven settings (Connected App credentials)
+        uses: s4u/maven-settings-action@v3.0.0
+        with:
+          servers: |
+            [{
+              "id": "anypoint-exchange-v3",
+              "username": "~~~Client~~~",
+              "password": "${{ secrets.ANYPOINT_CLIENT_ID }}~?~${{ secrets.ANYPOINT_CLIENT_SECRET }}"
+            }]
+ 
+      - name: Build application
+        run: mvn -B clean package -DskipTests
+ 
+      - name: Deploy to CloudHub 2.0
+        run: >
+          mvn -B deploy -DskipTests
+          -Denvironment=${{ env.ENVIRONMENT }}
+          -Dtarget=${{ env.TARGET }}
+ 
+      - name: Deployment summary
+        if: success()
+        run: |
+          echo "✅ Deployed successfully to environment: ${{ env.ENVIRONMENT }}, target: ${{ env.TARGET }}"
