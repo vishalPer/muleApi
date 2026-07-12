@@ -39,7 +39,7 @@
 						<target>${target}</target>
 						<muleVersion>4.12.1</muleVersion>
 						<server>anypoint-exchange-v3</server>
-						<applicationName>${appName}</applicationName>
+						<applicationName>${name}</applicationName>
 						<replicas>1</replicas>
 						<vCores>0.1</vCores>
 						<deploymentSettings>
