@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>1620d3c8-4cba-4cfc-90b4-abdb03062de1</groupId>
-	<artifactId>mule-api-new</artifactId>
+	<artifactId>mule-api</artifactId>
 	<version>1.0.0</version>
 	<packaging>mule-application</packaging>
 
