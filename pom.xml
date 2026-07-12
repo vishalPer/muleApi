@@ -37,7 +37,7 @@
 						<provider>MC</provider>
 						<environment>${environment}</environment>
 						<target>${target}</target>
-						<muleVersion>4.8.0</muleVersion>
+						<muleVersion>4.12.1</muleVersion>
 						<server>anypoint-exchange-v3</server>
 						<applicationName>${appName}</applicationName>
 						<replicas>1</replicas>
