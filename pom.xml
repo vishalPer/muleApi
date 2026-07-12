@@ -41,7 +41,7 @@
 						<server>anypoint-exchange-v3</server>
 						<applicationName>${appName}</applicationName>
 						<replicas>1</replicas>
-						<vCores>1</vCores>
+						<vCores>0.1</vCores>
 						<deploymentSettings>
 							<http>
 								<inbound>
