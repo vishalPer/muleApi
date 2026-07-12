@@ -56,7 +56,7 @@ jobs:
             [{
               "id": "anypoint-exchange-v3",
               "username": "~~~Client~~~",
-              "password": "${{ secrets.ANYPOINT_CLIENT_ID }}~?~${{ secrets.ANYPOINT_CLIENT_SECRET }}"
+              "password": "9f529f6ca8364f809020e4a82f3e2616~?~6C154124af0841d18f8A6b21180c76A8"
             }]
  
       - name: Build application
