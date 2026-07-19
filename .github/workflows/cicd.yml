@@ -74,7 +74,7 @@ jobs:
         run: > 
              mvn -B clean package -DskipTests 
              -s .maven/settings.xml 
-             -Drevision = $APP_VERSION
+             -Drevision=$APP_VERSION
       
       # below step will rename target/${artifactId}-${version}.jar to target/app.jar
       - name: Rename package(jar) file
