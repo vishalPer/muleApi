@@ -78,7 +78,7 @@ jobs:
       # which was created at package phase
       - name: Deploy to Exchange
         run: >
-          mvn deploy:deploy-file -B -ntp -DskipTests
+          mvn deploy:deploy-file -B -ntp -X -DskipTests
           -s .maven/settings.xml
           -Dfile=target/app.jar
           -Durl=https://maven.anypoint.mulesoft.com/api/v3/organizations/1620d3c8-4cba-4cfc-90b4-abdb03062de1/maven
