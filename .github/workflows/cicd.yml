@@ -1,3 +1,21 @@
+# in command we have run:>  treat all command one line
+# run: > 
+#       line 1
+#       line 2
+#       line 3
+
+# for connecting multiple line we need \
+# run: line 1 \  
+#      line 2 \
+#      line 3
+
+# we also have | 
+# run: |
+#      line 1
+#      line 2
+
+# no spaces:  -Drevision = $APP_VERSION  this is wrong, -Drevision=$APP_VERSION  this is right
+
 name: Deploy Mule App to CloudHub 2.0
  
 on:
@@ -19,9 +37,12 @@ on:
         description: "CloudHub 2.0 deployment target (Shared Space / Private Space name)"
         required: true
         default: "Cloudhub-US-East-2"
+
+env:
+  APP_VERSION: '1.0.${{ github.run_number }}'
  
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
  
     env:
@@ -31,7 +52,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
- 
+        with:
+          fetch-depth: 1
+          
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -45,34 +68,34 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
- 
-      # Injects the Connected App credentials into ~/.m2/settings.xml under
-      # the server id referenced by <server> in your pom.xml's
-      # <cloudhub2Deployment> and <distributionManagement> blocks.
-      - name: Configure Maven settings (Connected App credentials)
-        uses: s4u/maven-settings-action@v3.0.0
-        with:
-          servers: |
-            [{
-              "id": "anypoint-exchange-v3",
-              "username": "~~~Client~~~",
-              "password": "9f529f6ca8364f809020e4a82f3e2616~?~6C154124af0841d18f8A6b21180c76A8"
-            }]
- 
-      - name: Build application
-        run: mvn -B clean package -DskipTests
 
+      # below step will package our code and save like target/${artifactId}-${version}.jar
+      - name: Build application
+        run: > 
+             mvn -B clean package -DskipTests 
+             -s .maven/settings.xml 
+             -Drevision = $APP_VERSION
+      
+      # below step will rename target/${artifactId}-${version}.jar to target/app.jar
+      - name: Rename package(jar) file
+        run: mv "$(ls target/*.jar | head -1)" target/app.jar
+
+      # as we know deploy maven stage will everything which comes before it like validate -> compile -> test -> package-> deploy
+      # so packaging will be repeatitive task, but if we pass -Dmule.artifact=target/app.jar it will use the same jar file
+      # which was created at package phase
       - name: Deploy to Exchange
         run: >
           mvn -B deploy -DskipTests
-          -Denvironment=${{ env.ENVIRONMENT }}
-          -Dtarget=${{ env.TARGET }}
+          -Drevision=$APP_VERSION
+          -Dmule.artifact=target/app.jar
  
       - name: Deploy to CloudHub 2.0
         run: >
           mvn -B deploy  -DmuleDeploy -DskipTests
           -Denvironment=${{ env.ENVIRONMENT }}
           -Dtarget=${{ env.TARGET }}
+          -Drevision=$APP_VERSION
+          -Dmule.artifact=target/app.jar
  
       - name: Deployment summary
         if: success()
