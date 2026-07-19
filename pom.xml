@@ -15,7 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<app.runtime>4.12.1</app.runtime>
+		<app.runtime>4.9.0</app.runtime>
 		<mule.maven.plugin.version>4.3.0</mule.maven.plugin.version>
 	</properties>
 
@@ -37,7 +37,7 @@
 						<provider>MC</provider>
 						<environment>${environment}</environment>
 						<target>${target}</target>
-						<muleVersion>4.12.1</muleVersion>
+						<muleVersion>4.9.0</muleVersion>
 						<server>anypoint-exchange-v3</server>
 						<applicationName>${name}</applicationName>
 						<replicas>1</replicas>
