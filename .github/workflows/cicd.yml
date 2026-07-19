@@ -78,7 +78,7 @@ jobs:
       # which was created at package phase
       - name: Deploy to Exchange
         run: >
-          mvn deploy -B -ntp -DskipTests
+          mvn deploy:deploy-file -B -ntp -DskipTests
           -s .maven/settings.xml
           -Drevision=$APP_VERSION
           -Dmule.artifact=target/app.jar
