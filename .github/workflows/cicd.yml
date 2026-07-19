@@ -65,7 +65,7 @@ jobs:
       # below step will package our code and save like target/${artifactId}-${version}.jar
       - name: Build application
         run: > 
-             mvn clean package -B -DskipTests 
+             mvn clean package -B  -ntp -DskipTests 
              -s .maven/settings.xml 
              -Drevision=$APP_VERSION
       
@@ -78,14 +78,25 @@ jobs:
       # which was created at package phase
       - name: Deploy to Exchange
         run: >
-          mvn -B deploy -DskipTests
+          mvn deploy -B -ntp -DskipTests
           -s .maven/settings.xml
           -Drevision=$APP_VERSION
           -Dmule.artifact=target/app.jar
- 
+
+      - name: Publish Build Artifacts (pom, settings, jar)
+        uses: actions/upload-artifact@v4
+        with:
+          name: drop
+          path: |
+            pom.xml
+            .maven/
+            target/app.jar
+          include-hidden-files: true   # required for .maven/
+          if-no-files-found: error
+
       - name: Deploy to CloudHub 2.0
         run: >
-          mvn -B deploy  -DmuleDeploy -DskipTests
+          mvn deploy -B -ntp -DmuleDeploy -DskipTests
           -s .maven/settings.xml
           -Denvironment=${{ env.ENVIRONMENT }}
           -Dtarget=${{ env.TARGET }}
