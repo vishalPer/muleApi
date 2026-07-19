@@ -93,6 +93,7 @@ jobs:
       - name: Deploy to CloudHub 2.0
         run: >
           mvn -B deploy  -DmuleDeploy -DskipTests
+          -s .maven/settings.xml
           -Denvironment=${{ env.ENVIRONMENT }}
           -Dtarget=${{ env.TARGET }}
           -Drevision=$APP_VERSION
