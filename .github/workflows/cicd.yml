@@ -80,6 +80,7 @@ jobs:
         run: >
           mvn deploy:deploy-file -B -ntp -DskipTests
           -s .maven/settings.xml
+          -Dfile=target/app.jar
           -Drevision=$APP_VERSION
           -Dmule.artifact=target/app.jar
 
