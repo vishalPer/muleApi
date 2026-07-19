@@ -5,20 +5,20 @@
   <offline/>
   <pluginGroups/>
   <servers>
-    <server>
+    <!--<server>
 		<id>anypoint-exchange-v3</id>
 		<username>aadipurush12</username>
 		<password>Vks@#0203</password>
-    </server>
+    </server>-->
     <!--<server>
 		<id>PrivateExchangeRepository</id>
 		<username>aadipurush12</username>
 		<password>Vks@#0203</password>
     </server>-->
     <server>
-            <id>PrivateExchangeRepository</id>
+            <id>anypoint-exchange-v3</id>
             <username>~~~Client~~~</username>
-            <password>8a77406f94c94820ba9a58af12a18fd9~?~dC7e6fAd422A4e16AC258C8d11D87212</password>
+            <password>9f529f6ca8364f809020e4a82f3e2616~?~6C154124af0841d18f8A6b21180c76A8</password>
     </server>
   </servers>
   <mirrors/>
