@@ -60,14 +60,7 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "17"
- 
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+          cache: 'maven'
 
       # below step will package our code and save like target/${artifactId}-${version}.jar
       - name: Build application
