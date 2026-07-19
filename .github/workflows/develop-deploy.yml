@@ -1,0 +1,49 @@
+
+name: deploy2CH2
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'GitHub Environment: DEV | QA | UAT | PROD'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    timeout-minutes: 30
+    env:
+      #ANYPOINT_CA_CLIENT_ID: ${{ secrets.ANYPOINT_CA_CLIENT_ID }}      # settings.xml reads ${env.*}
+      #ANYPOINT_CA_CLIENT_SECRET: ${{ secrets.ANYPOINT_CA_CLIENT_SECRET }}
+      APP_VERSION: '1.0.${{ github.run_number }}'   # same value as CI: same run, same GAV
+    steps:
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: drop
+
+      - name: Set up JDK 17 (with Maven cache)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+          
+      - name: Deploy to CloudHub 2.0
+        run: >
+          mvn deploy -B -ntp -DmuleDeploy -DskipTests
+          -s .maven/settings.xml
+          -Denvironment=${{ env.ENVIRONMENT }}
+          -Dtarget=${{ env.TARGET }}
+          -Drevision=$APP_VERSION
+          -Dmule.artifact=target/app.jar
+ 
+      - name: Deployment summary
+        if: success()
+        run: |
+          echo "✅ Deployed successfully to environment: ${{ env.ENVIRONMENT }}, target: ${{ env.TARGET }}"
