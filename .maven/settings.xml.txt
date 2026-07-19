@@ -1,0 +1,28 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <localRepository/>
+  <interactiveMode/>
+  <offline/>
+  <pluginGroups/>
+  <servers>
+    <server>
+		<id>anypoint-exchange-v3</id>
+		<username>aadipurush12</username>
+		<password>Vks@#0203</password>
+    </server>
+    <!--<server>
+		<id>PrivateExchangeRepository</id>
+		<username>aadipurush12</username>
+		<password>Vks@#0203</password>
+    </server>-->
+    <server>
+            <id>PrivateExchangeRepository</id>
+            <username>~~~Client~~~</username>
+            <password>8a77406f94c94820ba9a58af12a18fd9~?~dC7e6fAd422A4e16AC258C8d11D87212</password>
+    </server>
+  </servers>
+  <mirrors/>
+  <proxies/>
+  <profiles/>
+  <activeProfiles/>
+</settings>
