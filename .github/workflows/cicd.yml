@@ -72,7 +72,7 @@ jobs:
       # below step will package our code and save like target/${artifactId}-${version}.jar
       - name: Build application
         run: > 
-             mvn -B clean package -DskipTests 
+             mvn clean package -B -DskipTests 
              -s .maven/settings.xml 
              -Drevision=$APP_VERSION
       
