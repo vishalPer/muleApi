@@ -94,16 +94,10 @@ jobs:
           include-hidden-files: true   # required for .maven/
           if-no-files-found: error
 
-      - name: Deploy to CloudHub 2.0
-        run: >
-          mvn mule:deploy -B -ntp -DskipTests
-          -s .maven/settings.xml
-          -Denvironment=${{ env.ENVIRONMENT }}
-          -Dtarget=${{ env.TARGET }}
-          -Drevision=$APP_VERSION
-          -Dmule.artifact=target/app.jar
- 
-      - name: Deployment summary
-        if: success()
-        run: |
-          echo "✅ Deployed successfully to environment: ${{ env.ENVIRONMENT }}, target: ${{ env.TARGET }}"
+  Deploy_To_Dev:
+    needs: build
+    if: github.ref == 'refs/heads/develop'
+    uses: ./.github/workflows/deploy-env.yml
+    with:
+      environment: DEV
+    secrets: inherit
