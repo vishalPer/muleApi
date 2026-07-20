@@ -90,6 +90,8 @@ jobs:
           path: |
             pom.xml
             .maven/
+            src
+            mule-artifact.json
             target/app.jar
           include-hidden-files: true   # required for .maven/
           if-no-files-found: error
