@@ -96,7 +96,7 @@ jobs:
 
       - name: Deploy to CloudHub 2.0
         run: >
-          mvn deploy -B -ntp -DmuleDeploy -DskipTests
+          mvn mule:deploy -B -ntp -DskipTests
           -s .maven/settings.xml
           -Denvironment=${{ env.ENVIRONMENT }}
           -Dtarget=${{ env.TARGET }}
