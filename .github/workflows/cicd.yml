@@ -97,7 +97,7 @@ jobs:
   Deploy_To_Dev:
     needs: build
     if: github.ref == 'refs/heads/develop'
-    uses: ./.github/workflows/deploy-env.yml
+    uses: ./.github/workflows/develop-deploy.yml
     with:
       environment: DEV
     secrets: inherit
