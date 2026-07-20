@@ -21,6 +21,8 @@ jobs:
       #ANYPOINT_CA_CLIENT_ID: ${{ secrets.ANYPOINT_CA_CLIENT_ID }}      # settings.xml reads ${env.*}
       #ANYPOINT_CA_CLIENT_SECRET: ${{ secrets.ANYPOINT_CA_CLIENT_SECRET }}
       APP_VERSION: '1.0.${{ github.run_number }}'   # same value as CI: same run, same GAV
+      ENVIRONMENT: ${{ github.event.inputs.environment || 'Sandbox' }}
+      TARGET: ${{ github.event.inputs.target || 'Cloudhub-US-East-2' }}
     steps:
       - name: Download Build Artifacts
         uses: actions/download-artifact@v4
